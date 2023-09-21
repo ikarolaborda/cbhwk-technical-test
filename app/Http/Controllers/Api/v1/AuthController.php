@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
@@ -40,12 +41,9 @@ class AuthController extends Controller
         ],Response::HTTP_BAD_REQUEST);
     }
 
-    public function login(Request $request)
+    public function login(UserLoginRequest $request)
     {
-        $validatedData = $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
+        $validatedData = $request->validated();
 
         if (!Auth::attempt($validatedData)) {
             return response()->json(['message' => 'Invalid login credentials'], 401);
