@@ -12,6 +12,7 @@ class EloquentTurbineRepository extends BaseRepository implements TurbineReposit
     public function __construct(
         protected Turbine $model)
     {
+        parent::__construct($model);
     }
 
     public function getTurbineComponents(int $turbineId): iterable

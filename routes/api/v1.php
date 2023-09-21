@@ -13,4 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/turbines', [TurbineController::class, 'index']);
     Route::post('/turbines', [TurbineController::class, 'store']);
+    Route::get('/turbines/{id}', [TurbineController::class, 'show']);
+    Route::put('/turbines/{id}', [TurbineController::class, 'update']);
+    Route::delete('/turbines/{id}', [TurbineController::class, 'destroy']);
 });

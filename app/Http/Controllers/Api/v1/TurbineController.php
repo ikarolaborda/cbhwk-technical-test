@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TurbineStoreRequest;
+use App\Http\Requests\TurbineUpdateRequest;
 use App\Services\TurbineService;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -27,7 +28,7 @@ class TurbineController extends Controller
 
     public function show(Request $request, int $id): Response | JsonResponse
     {
-        $turbine = $this->service->find($id);
+        $turbine = $this->service->getById($id);
         if($turbine){
             return new JsonResponse(
                 [
@@ -55,6 +56,41 @@ class TurbineController extends Controller
         return new JsonResponse(
             [
                 'message' => 'Failed to create turbine'
+            ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function update(TurbineUpdateRequest $request, int $id): Response | JsonResponse
+    {
+        $turbine = $this->service->update($id, $request->validated());
+
+        if($turbine){
+            return new JsonResponse(
+                [
+                    'message' => 'Turbine updated successfully',
+                    'turbine' => $turbine
+                ], Response::HTTP_OK);
+        }
+
+        return new JsonResponse(
+            [
+                'message' => 'Failed to update turbine'
+            ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function destroy(Request $request, int $id): Response | JsonResponse
+    {
+        $turbine = $this->service->delete($id);
+
+        if($turbine){
+            return new JsonResponse(
+                [
+                    'message' => 'Turbine deleted successfully'
+                ], Response::HTTP_OK);
+        }
+
+        return new JsonResponse(
+            [
+                'message' => 'Failed to delete turbine'
             ], Response::HTTP_BAD_REQUEST);
     }
 }
