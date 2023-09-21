@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\TurbineComponentRepositoryInterface;
 use App\Contracts\TurbineRepositoryInterface;
 use App\Contracts\UserRepositoryInterface;
+use App\Repositories\EloquentTurbineComponentRepository;
 use App\Repositories\EloquentTurbineRepository;
 use App\Repositories\EloquentUserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +27,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
         UserRepositoryInterface::class,
         EloquentUserRepository::class
+        );
+
+        $this->app->bind(
+        TurbineComponentRepositoryInterface::class,
+        EloquentTurbineComponentRepository::class
         );
     }
 
