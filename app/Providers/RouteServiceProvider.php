@@ -26,6 +26,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->mapApiV1Routes();
         $this->configureRateLimiting();
 
         $this->routes(function () {
@@ -48,5 +49,14 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+    }
+
+    /* Register API v1 Routes*/
+    protected function mapApiV1Routes(): void
+    {
+        Route::prefix('api/v1')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api/v1.php'));
     }
 }
